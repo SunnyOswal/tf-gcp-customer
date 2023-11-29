@@ -39,6 +39,6 @@ jobs:
         run: |
           cd tf-gcp-base
           terraform init
-          terraform plan
-          terraform apply -auto-approve
+          terraform plan -var-file="customer.tfvars" -out=customer.tfplan
+          terraform apply customer.tfplan -auto-approve
           terraform destroy -auto-approve
