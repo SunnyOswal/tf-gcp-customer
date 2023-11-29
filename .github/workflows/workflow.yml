@@ -49,7 +49,7 @@ jobs:
         run: |
           pwd
           ls
-          cp -r ../tf-gcp-customer . 
+          cp -r ./tf-gcp-customer/* ./tf-gcp-base 
           ls
 
       - name: Terraform Apply
