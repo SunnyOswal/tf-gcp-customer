@@ -2,9 +2,11 @@ name: Terraform
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push events but only for the "main" branch
+  # Triggers the workflow on push events for all branches except the "main" branch
   push:
-    branches: [ "main" ]
+    branches:
+      - '*'
+      - '!main'
     
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -38,4 +40,5 @@ jobs:
           cd tf-gcp-base
           terraform init
           terraform plan
-          # terraform apply
+          terraform apply -auto-approve
+          terraform destroy -auto-approve
