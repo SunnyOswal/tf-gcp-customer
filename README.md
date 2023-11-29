@@ -20,5 +20,5 @@
 
 # Customer Deployment Trigger
 + Create a local branch (use same name as the environment name used above in prerequistes)
-+ Create backend.tf and `Customer.tfvars` (use same name , do not change)
++ Create provider.tf, backend.tf and `Customer.tfvars` (use same name , do not change)
 + Commit and push local branch to remote and it will trigger the terraform pipeline.
