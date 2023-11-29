@@ -12,20 +12,10 @@ jobs:
   tf:
     runs-on: ubuntu-latest
     steps:
-      - name: ls
-        run: |
-          pwd
-          ls
-
       - name: customer repo checkout
         uses: actions/checkout@v4
         with:
           path: tf-gcp-customer
-
-      - name: ls
-        run: |
-          pwd
-          ls
           
       - name: base repo checkout
         uses: actions/checkout@v4
@@ -34,26 +24,18 @@ jobs:
           path: tf-gcp-base
           ref: 'main'
           token: '${{ secrets.GH_TOKEN }}'
-      
-
-      - name: ls
-        run: |
-          pwd
-          ls
-      
-      - uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
       - name: Copy Customer repo files to base repo dir
-        run: |
-          pwd
-          ls
-          cp -r ./tf-gcp-customer/* ./tf-gcp-base 
-          ls
+        run: cp -r ./tf-gcp-customer/* ./tf-gcp-base
 
+      - name: GCP Auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+          
       - name: Terraform Apply
         run: |
+          cd tf-gcp-base
           terraform init
           terraform plan
           # terraform apply
