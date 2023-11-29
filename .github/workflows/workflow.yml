@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     # Environment will be branch name of the customer.
     # Each customer will have it's own env which will have it's respective secrets.
-    #environment: ${{ github.ref_name }}
+    environment: ${{ github.ref_name }}
     steps:
       - name: customer repo checkout
         uses: actions/checkout@v4
