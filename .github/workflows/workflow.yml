@@ -2,54 +2,43 @@ name: Terraform
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push events but only for the "main" branch
+  # Triggers the workflow on push events for all branches except the "main" branch
   push:
-    branches: [ "main" ]
+    branches:
+      - '*'
+      - '!main'
     
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 jobs:
   tf:
     runs-on: ubuntu-latest
-    steps:      
-      # base repo checkout
-      - uses: actions/checkout@v4
+    steps:
+      - name: customer repo checkout
+        uses: actions/checkout@v4
+        with:
+          path: tf-gcp-customer
+          
+      - name: base repo checkout
+        uses: actions/checkout@v4
         with:
           repository: 'SunnyOswal/tf-gcp-base'
-          # The branch, tag or SHA to checkout. When checking out the repository that
-          # triggered a workflow, this defaults to the reference or SHA for that event.
-          # Otherwise, uses the default branch.
-          # ref: ''
-      
-          # Personal access token (PAT) used to fetch the repository. The PAT is configured
-          # with the local git config, which enables your scripts to run authenticated git
-          # commands. The post-job step removes the PAT.
-          #
-          # We recommend using a service account with the least permissions necessary. Also
-          # when generating a new PAT, select the least scopes necessary.
-          #
-          # [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
-          #
-          # Default: ${{ github.token }}
-          # token: ''
+          path: tf-gcp-base
+          ref: 'main'
+          token: '${{ secrets.GH_TOKEN }}'
 
-      # current repo checkout
-      - uses: actions/checkout@v4
-      
-      - uses: 'google-github-actions/auth@v2'
+      - name: Copy Customer repo files to base repo dir
+        run: cp -r ./tf-gcp-customer/* ./tf-gcp-base
+
+      - name: GCP Auth
+        uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-
-      # Runs a single command using the runners shell
-      - name: Copy Customer repo files to base repo dir
-        run: |
-          pwd
-          ls
-          cp -r . ./tf-gcp-base
-          ls
-
+          
       - name: Terraform Apply
         run: |
+          cd tf-gcp-base
           terraform init
           terraform plan
-          # terraform apply
+          terraform apply -auto-approve
+          terraform destroy -auto-approve
