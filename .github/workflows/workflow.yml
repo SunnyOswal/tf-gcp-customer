@@ -16,21 +16,22 @@ jobs:
         run: |
           pwd
           ls
-      
+
+      - name: customer repo checkout
+        uses: actions/checkout@v4
+
+      - name: ls
+        run: |
+          pwd
+          ls
+          
       - name: base repo checkout
         uses: actions/checkout@v4
         with:
           repository: 'SunnyOswal/tf-gcp-base'
           ref: 'main'
           token: '${{ secrets.GH_TOKEN }}'
-
-      - name: ls
-        run: |
-          pwd
-          ls
-
-      - name: customer repo checkout
-        uses: actions/checkout@v4
+      
 
       - name: ls
         run: |
@@ -45,7 +46,7 @@ jobs:
         run: |
           pwd
           ls
-          cp -r . ./tf-gcp-base
+          cp -r ../tf-gcp-customer . 
           ls
 
       - name: Terraform Apply
