@@ -19,6 +19,8 @@ jobs:
 
       - name: customer repo checkout
         uses: actions/checkout@v4
+        with:
+          path: tf-gcp-customer
 
       - name: ls
         run: |
@@ -29,6 +31,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'SunnyOswal/tf-gcp-base'
+          path: tf-gcp-base
           ref: 'main'
           token: '${{ secrets.GH_TOKEN }}'
       
