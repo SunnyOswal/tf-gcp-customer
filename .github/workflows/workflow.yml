@@ -48,8 +48,6 @@ jobs:
           cd tf-gcp-base
           terraform init
           terraform plan -var-file="customer.tfvars" -out=customer.tfplan
-          terraform apply -auto-approve customer.tfplan
-          terraform destroy -auto-approve
 
       - name: Upload Terraform Plan
         uses: actions/upload-artifact@v3
@@ -98,7 +96,7 @@ jobs:
       - name: List files
         run: ls tf-artifacts
         
-      - name: Terraform Plan
+      - name: Terraform Apply
         run: |
           cd tf-gcp-base
           terraform init
