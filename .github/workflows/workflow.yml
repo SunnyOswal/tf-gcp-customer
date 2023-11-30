@@ -96,7 +96,7 @@ jobs:
       - name: List files
         run: ls tf-artifacts
         
-      - name: Terraform Plan
+      - name: Terraform Apply
         run: |
           cd tf-gcp-base
           terraform init
