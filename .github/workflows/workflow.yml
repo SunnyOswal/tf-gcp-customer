@@ -94,10 +94,11 @@ jobs:
           name: tf-artifacts
     
       - name: List files
-        run: ls tf-artifacts
+        run: ls
         
       - name: Terraform Apply
         run: |
+          cp customer.tfplan ./tf-gcp-base
           cd tf-gcp-base
           terraform init
           terraform apply -auto-approve customer.tfplan
